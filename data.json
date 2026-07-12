@@ -1,8 +1,8 @@
 {
-  "shopName": "Sweet&Bakery",
+  "shopName": "Sweets&",
   "shopDescription": "حلويات منزلية طازجة مصنوعة بحب وإتقان من أجود المكونات",
-  "chefWhatsApp": "966500000000",
-  "techPhone": "966500000000",
+  "chefWhatsApp": "982398084",
+  "techPhone": "96650000000",
   "categories": [
     "كاتو",
     "كريب",
@@ -106,6 +106,14 @@
       "price": 20,
       "description": "بودينغ فانيلا كريمي مع صوص التوت",
       "image": "https://picsum.photos/seed/pudding-van-12/400/300"
+    },
+    {
+      "id": 13,
+      "name": "كريب عادي",
+      "category": "كريب",
+      "price": 34,
+      "description": "لذيذ ورائع جدا",
+      "image": "https://ibb.co/DDHLfmsB"
     }
   ]
 }

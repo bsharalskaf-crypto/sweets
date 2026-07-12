@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet&Bakery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: { cairo: ['Cairo','sans-serif'] },
+                colors: {
+                    cream: '#FFF8F0',
+                    chocolate: '#3D2B1F',
+                    caramel: '#D4956A',
+                    copper: '#C75B39',
+                    gold: '#D4A574',
+                    sand: '#E8D5C4',
+                    mocha: '#6F4E37',
+                }
+            }
+        }
+    }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Cairo',sans-serif; background:#FFF8F0; color:#3D2B1F; overflow-x:hidden; }
+        ::selection { background:#C75B39; color:#fff; }
+        ::-webkit-scrollbar { width:8px; }
+        ::-webkit-scrollbar-track { background:#FFF8F0; }
+        ::-webkit-scrollbar-thumb { background:#D4A574; border-radius:99px; }
+
+        .bg-blobs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+        .blob { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.22; animation:blobMove 20s ease-in-out infinite alternate; }
+        .blob:nth-child(1) { width:500px; height:500px; background:#D4956A; top:-10%; right:-10%; animation-duration:22s; }
+        .blob:nth-child(2) { width:400px; height:400px; background:#C75B39; bottom:-10%; left:-5%; animation-duration:18s; animation-delay:-5s; }
+        .blob:nth-child(3) { width:350px; height:350px; background:#D4A574; top:40%; left:50%; animation-duration:25s; animation-delay:-10s; }
+        @keyframes blobMove {
+            0% { transform:translate(0,0) scale(1); }
+            33% { transform:translate(60px,-40px) scale(1.1); }
+            66% { transform:translate(-30px,50px) scale(0.9); }
+            100% { transform:translate(40px,20px) scale(1.05); }
+        }
+
+        .navbar { backdrop-filter:blur(20px); background:rgba(255,248,240,0.85); border-bottom:1px solid rgba(212,165,116,0.3); transition:all 0.3s; }
+        .navbar.scrolled { box-shadow:0 4px 30px rgba(61,43,31,0.1); }
+
+        .hero { min-height:90vh; background:linear-gradient(135deg,#3D2B1F 0%,#6F4E37 50%,#C75B39 100%); position:relative; overflow:hidden; }
+        .hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+        .hero-pattern { position:absolute; inset:0; background:radial-gradient(circle at 20% 80%,rgba(212,149,106,0.3),transparent 50%),radial-gradient(circle at 80% 20%,rgba(199,91,57,0.3),transparent 50%); }
+
+        .product-card { background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 4px 20px rgba(61,43,31,0.08); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); border:1px solid rgba(232,213,196,0.5); }
+        .product-card:hover { transform:translateY(-10px); box-shadow:0 20px 50px rgba(61,43,31,0.15); }
+        .product-card .card-img { height:220px; position:relative; overflow:hidden; }
+        .product-card .card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s; }
+        .product-card:hover .card-img img { transform:scale(1.1); }
+        .card-img .price-tag { position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#C75B39,#D4956A); color:#fff; padding:6px 24px; border-radius:99px; font-weight:700; font-size:1.1rem; box-shadow:0 4px 15px rgba(199,91,57,0.4); z-index:2; white-space:nowrap; }
+
+        .filter-btn { padding:10px 28px; border-radius:99px; border:2px solid #E8D5C4; background:transparent; color:#6F4E37; font-family:'Cairo'; font-weight:600; cursor:pointer; transition:all 0.3s; font-size:0.95rem; }
+        .filter-btn:hover { border-color:#D4A574; background:rgba(212,165,116,0.1); }
+        .filter-btn.active { background:linear-gradient(135deg,#C75B39,#D4956A); color:#fff; border-color:transparent; box-shadow:0 4px 15px rgba(199,91,57,0.3); }
+
+        .wa-float { position:fixed; bottom:30px; left:30px; z-index:999; width:65px; height:65px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.8rem; box-shadow:0 6px 25px rgba(37,211,102,0.4); cursor:pointer; animation:waPulse 2s ease-in-out infinite; transition:transform 0.3s; text-decoration:none; }
+        .wa-float:hover { transform:scale(1.1); }
+        @keyframes waPulse {
+            0%,100% { box-shadow:0 6px 25px rgba(37,211,102,0.4); }
+            50% { box-shadow:0 6px 40px rgba(37,211,102,0.7),0 0 0 15px rgba(37,211,102,0.1); }
+        }
+
+        .reveal { opacity:0; transform:translateY(40px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        .login-overlay { position:fixed; inset:0; z-index:20000; background:rgba(61,43,31,0.7); backdrop-filter:blur(10px); display:none; align-items:center; justify-content:center; padding:20px; }
+        .login-overlay.open { display:flex; }
+        .login-box { background:#FFF8F0; border-radius:24px; padding:40px; width:100%; max-width:420px; box-shadow:0 30px 80px rgba(0,0,0,0.3); text-align:center; }
+        .login-input { width:100%; padding:14px 20px; border:2px solid #E8D5C4; border-radius:14px; font-family:'Cairo'; font-size:1rem; background:#fff; outline:none; text-align:center; letter-spacing:3px; transition:border-color 0.3s; }
+        .login-input:focus { border-color:#C75B39; }
+
+        .admin-overlay { position:fixed; inset:0; z-index:15000; background:rgba(61,43,31,0.6); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; padding:20px; }
+        .admin-overlay.open { display:flex; }
+        .admin-panel { background:#FFF8F0; border-radius:24px; width:100%; max-width:950px; max-height:90vh; overflow-y:auto; box-shadow:0 30px 80px rgba(0,0,0,0.3); }
+        .admin-tab { padding:12px 20px; cursor:pointer; font-weight:600; color:#6F4E37; border-bottom:3px solid transparent; transition:all 0.3s; white-space:nowrap; }
+        .admin-tab.active { color:#C75B39; border-bottom-color:#C75B39; }
+        .admin-input { width:100%; padding:12px 16px; border:2px solid #E8D5C4; border-radius:12px; font-family:'Cairo'; font-size:0.95rem; background:#fff; transition:border-color 0.3s; outline:none; }
+        .admin-input:focus { border-color:#C75B39; }
+        .admin-btn { padding:10px 24px; border-radius:12px; border:none; font-family:'Cairo'; font-weight:700; cursor:pointer; transition:all 0.3s; font-size:0.95rem; }
+        .admin-btn-primary { background:linear-gradient(135deg,#C75B39,#D4956A); color:#fff; }
+        .admin-btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(199,91,57,0.3); }
+        .admin-btn-danger { background:#ef4444; color:#fff; }
+        .admin-btn-danger:hover { background:#dc2626; }
+        .admin-btn-secondary { background:#E8D5C4; color:#3D2B1F; }
+        .admin-btn-secondary:hover { background:#D4A574; color:#fff; }
+        .admin-btn-sm { padding:8px 14px; font-size:0.82rem; border-radius:10px; }
+        .admin-btn-success { background:#22c55e; color:#fff; }
+        .admin-btn-success:hover { background:#16a34a; }
+
+        .admin-product-row { display:flex; align-items:center; gap:12px; padding:12px; border-radius:12px; background:#fff; border:1px solid #E8D5C4; margin-bottom:8px; flex-wrap:wrap; }
+        .admin-product-row img { width:50px; height:50px; border-radius:8px; object-fit:cover; }
+
+        .cat-tag { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #E8D5C4; border-radius:10px; padding:8px 14px; font-size:0.9rem; font-weight:600; color:#6F4E37; }
+        .cat-tag button { background:none; border:none; cursor:pointer; color:#ccc; font-size:0.85rem; transition:color 0.2s; padding:0 2px; }
+        .cat-tag button:hover { color:#ef4444; }
+
+        .toast { position:fixed; top:30px; left:50%; transform:translateX(-50%) translateY(-120px); z-index:99999; padding:14px 32px; border-radius:14px; color:#fff; font-weight:600; font-family:'Cairo'; box-shadow:0 10px 40px rgba(0,0,0,0.2); transition:transform 0.5s cubic-bezier(0.16,1,0.3,1); white-space:nowrap; }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+        .toast-success { background:linear-gradient(135deg,#22c55e,#16a34a); }
+        .toast-error { background:linear-gradient(135deg,#ef4444,#dc2626); }
+        .toast-info { background:linear-gradient(135deg,#3b82f6,#2563eb); }
+
+        .tech-footer { background:linear-gradient(135deg,#3D2B1F,#6F4E37); position:relative; overflow:hidden; }
+        .tech-footer::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20c5.523 0 10-4.477 10-10S25.523 0 20 0 10 4.477 10 10s4.477 10 10 10zm0 20c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10z'/%3E%3C/g%3E%3C/svg%3E"); }
+
+        .guide-box { background:linear-gradient(135deg,#FFF8F0,#E8D5C4); border:2px dashed #D4A574; border-radius:16px; padding:20px; margin-bottom:20px; }
+        .guide-box ol { padding-right:20px; }
+        .guide-box li { margin-bottom:8px; line-height:1.8; }
+        .guide-box code { background:rgba(199,91,57,0.1); color:#C75B39; padding:2px 8px; border-radius:6px; font-size:0.85em; }
+
+        @media(max-width:768px) {
+            .hero { min-height:70vh; }
+            .product-card .card-img { height:180px; }
+            .wa-float { width:55px; height:55px; font-size:1.5rem; bottom:20px; left:20px; }
+            .admin-panel { border-radius:16px; }
+            .login-box { padding:28px 20px; }
+            .toast { font-size:0.85rem; padding:12px 20px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .blob,.wa-float,.reveal,.product-card,.product-card .card-img img { animation:none!important; transition:none!important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-blobs"><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
+
+<nav class="navbar fixed top-0 left-0 right-0 z-[1000] px-4 md:px-8 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div id="secretTrigger" class="w-11 h-11 rounded-xl bg-gradient-to-br from-copper to-gold flex items-center justify-center text-white text-lg select-none cursor-pointer">
+                <i class="fas fa-cookie-bite"></i>
+            </div>
+            <span id="navShopName" class="text-xl font-bold text-chocolate" dir="ltr">Sweet&Bakery</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#products" class="hidden md:block text-mocha font-semibold hover:text-copper transition-colors">المنتجات</a>
+            <a href="#about" class="hidden md:block text-mocha font-semibold hover:text-copper transition-colors">من نحن</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero flex items-center justify-center text-center text-white relative">
+    <div class="hero-pattern"></div>
+    <div class="relative z-10 px-6">
+        <div class="inline-block mb-6 px-5 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-sm font-semibold tracking-wide">
+            <i class="fas fa-star text-gold ml-2"></i> حلويات منزلية طازجة
+        </div>
+        <h1 id="heroTitle" class="text-5xl md:text-7xl font-black mb-6 leading-tight" dir="ltr">Sweet&Bakery</h1>
+        <p id="heroDesc" class="text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-10 font-light leading-relaxed">حلويات منزلية طازجة مصنوعة بحب وإتقان من أجود المكونات</p>
+        <a href="#products" class="inline-flex items-center gap-3 bg-white text-chocolate px-8 py-4 rounded-2xl font-bold text-lg hover:bg-cream transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1">
+            <span>تصفح المنتجات</span>
+            <i class="fas fa-arrow-down"></i>
+        </a>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 50L48 45C96 40 192 30 288 28C384 26 480 32 576 42C672 52 768 66 864 68C960 70 1056 60 1152 50C1248 40 1344 30 1392 25L1440 20V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0V50Z" fill="#FFF8F0"/>
+        </svg>
+    </div>
+</section>
+
+<section id="products" class="relative z-10 py-20 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-14 reveal">
+            <span class="text-copper font-bold text-sm tracking-wider uppercase">قائمتنا اللذيذة</span>
+            <h2 class="text-4xl md:text-5xl font-black text-chocolate mt-3">أصنافنا المميزة</h2>
+            <div class="w-20 h-1.5 bg-gradient-to-r from-copper to-gold mx-auto mt-5 rounded-full"></div>
+        </div>
+        <div id="filterContainer" class="flex flex-wrap justify-center gap-3 mb-12 reveal"></div>
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+    </div>
+</section>
+
+<section id="about" class="relative z-10 py-20 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto reveal">
+        <div class="bg-white rounded-3xl p-8 md:p-14 shadow-xl border border-sand/50 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-gold shadow-lg flex-shrink-0">
+                <img src="https://picsum.photos/seed/chef-home-bakery/400/400" alt="الشيف" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center md:text-right">
+                <h3 class="text-3xl font-black text-chocolate mb-4">قصة حلوياتنا</h3>
+                <p class="text-mocha leading-loose text-lg">بدأت رحلتنا من المطبخ المنزلي بشغف كبير لتقديم حلويات أصيلة وطازجة. نحرص على اختيار أفضل المكونات ونعمل بشغف لنقدم لكم طعماً لا يُنسى في كل قضمة.</p>
+                <div class="flex items-center gap-4 mt-6 justify-center md:justify-start">
+                    <div class="text-center"><span class="block text-2xl font-black text-copper">+500</span><span class="text-sm text-mocha">عميل سعيد</span></div>
+                    <div class="w-px h-10 bg-sand"></div>
+                    <div class="text-center"><span class="block text-2xl font-black text-copper" id="catCountStat">5</span><span class="text-sm text-mocha">أصناف مميزة</span></div>
+                    <div class="w-px h-10 bg-sand"></div>
+                    <div class="text-center"><span class="block text-2xl font-black text-copper">طازج</span><span class="text-sm text-mocha">يومياً</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="tech-footer text-white py-12 px-4 md:px-8 mt-10">
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-5 border border-white/10 mb-6">
+            <i class="fas fa-laptop-code text-2xl text-gold"></i>
+            <div class="text-right">
+                <p class="text-sm text-white/60 mb-1">تصميم وتطوير</p>
+                <p class="text-xl font-bold">للخدمات التقنية والفنية</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <a id="techPhoneLink" href="tel:966500000000" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-6 py-3 rounded-xl border border-white/10">
+                <i class="fas fa-phone"></i>
+                <span id="techPhoneDisplay" class="font-bold tracking-wider" dir="ltr">966500000000</span>
+            </a>
+        </div>
+        <p class="text-white/40 text-sm mt-6">جميع الحقوق محفوظة &copy; <span id="footerYear"></span></p>
+    </div>
+</footer>
+
+<a id="waFloatBtn" href="https://wa.me/966500000000" target="_blank" class="wa-float" aria-label="تواصل عبر واتساب"><i class="fab fa-whatsapp"></i></a>
+
+<div id="toast" class="toast toast-success"></div>
+
+<!-- نافذة تسجيل الدخول -->
+<div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true">
+    <div class="login-box">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-copper to-gold flex items-center justify-center text-white text-2xl mx-auto mb-5"><i class="fas fa-shield-alt"></i></div>
+        <h3 class="text-xl font-black text-chocolate mb-2">لوحة التحكم</h3>
+        <p class="text-mocha text-sm mb-6">أدخل كلمة المرور للمتابعة</p>
+        <input id="loginPass" type="password" class="login-input mb-4" placeholder="* * * * * * *" autocomplete="off">
+        <p id="loginError" class="text-red-500 text-sm mb-4 hidden">كلمة المرور غير صحيحة</p>
+        <div class="flex gap-3">
+            <button onclick="attemptLogin()" class="admin-btn admin-btn-primary flex-1"><i class="fas fa-sign-in-alt ml-2"></i> دخول</button>
+            <button onclick="closeLogin()" class="admin-btn admin-btn-secondary">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<!-- لوحة التحكم -->
+<div id="adminOverlay" class="admin-overlay" role="dialog" aria-modal="true">
+    <div class="admin-panel">
+        <div class="flex items-center justify-between p-6 border-b border-sand">
+            <h3 class="text-xl font-black text-chocolate flex items-center gap-2"><i class="fas fa-sliders-h text-copper"></i> لوحة التحكم</h3>
+            <button onclick="closeAdmin()" class="w-10 h-10 rounded-xl bg-sand/50 flex items-center justify-center hover:bg-red-100 hover:text-red-500 transition-all" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex border-b border-sand px-6 gap-2 overflow-x-auto">
+            <button class="admin-tab active" data-tab="products" onclick="switchTab('products')">المنتجات</button>
+            <button class="admin-tab" data-tab="categories" onclick="switchTab('categories')">الفئات</button>
+            <button class="admin-tab" data-tab="settings" onclick="switchTab('settings')">الإعدادات</button>
+            <button class="admin-tab" data-tab="data" onclick="switchTab('data')">رفع لل GitHub</button>
+        </div>
+
+        <!-- تبويب المنتجات -->
+        <div id="tab-products" class="p-6">
+            <div class="bg-white rounded-2xl p-6 border border-sand mb-6">
+                <h4 class="font-bold text-chocolate mb-4" id="formTitle">إضافة منتج جديد</h4>
+                <input type="hidden" id="editId" value="">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div><label class="block text-sm font-semibold text-mocha mb-1">اسم المنتج</label><input id="pName" class="admin-input" placeholder="مثال: كاتو شوكولاتة"></div>
+                    <div><label class="block text-sm font-semibold text-mocha mb-1">الفئة</label><select id="pCategory" class="admin-input"></select></div>
+                    <div><label class="block text-sm font-semibold text-mocha mb-1">السعر (ريال)</label><input id="pPrice" type="number" class="admin-input" placeholder="45"></div>
+                    <div><label class="block text-sm font-semibold text-mocha mb-1">رابط الصورة</label><input id="pImage" class="admin-input" placeholder="https://..."></div>
+                </div>
+                <div class="mb-4"><label class="block text-sm font-semibold text-mocha mb-1">الوصف</label><textarea id="pDesc" class="admin-input" rows="2" placeholder="وصف مختصر للمنتج"></textarea></div>
+                <div class="flex gap-3">
+                    <button onclick="saveProduct()" class="admin-btn admin-btn-primary"><i class="fas fa-save ml-2"></i> <span id="saveBtnText">حفظ المنتج</span></button>
+                    <button onclick="resetForm()" class="admin-btn admin-btn-secondary">إلغاء</button>
+                </div>
+            </div>
+            <h4 class="font-bold text-chocolate mb-3">المنتجات الحالية (<span id="productCount">0</span>)</h4>
+            <div id="adminProductsList"></div>
+        </div>
+
+        <!-- تبويب الفئات -->
+        <div id="tab-categories" class="p-6 hidden">
+            <div class="bg-white rounded-2xl p-6 border border-sand mb-6">
+                <h4 class="font-bold text-chocolate mb-4">إضافة فئة جديدة</h4>
+                <div class="flex gap-3">
+                    <input id="newCatName" class="admin-input flex-1" placeholder="اسم الفئة الجديدة">
+                    <button onclick="addCategory()" class="admin-btn admin-btn-primary"><i class="fas fa-plus ml-2"></i> إضافة</button>
+                </div>
+            </div>
+            <h4 class="font-bold text-chocolate mb-3">الفئات الحالية</h4>
+            <div id="categoriesList" class="flex flex-wrap gap-3"></div>
+            <p class="text-mocha text-xs mt-4"><i class="fas fa-info-circle ml-1"></i> حذف فئة ينقل منتجاتها تلقائياً لفئة "أخرى".</p>
+        </div>
+
+        <!-- تبويب الإعدادات -->
+        <div id="tab-settings" class="p-6 hidden">
+            <div class="bg-white rounded-2xl p-6 border border-sand space-y-5">
+                <div><label class="block text-sm font-semibold text-mocha mb-1">اسم المحل</label><input id="sName" class="admin-input" placeholder="Sweet&Bakery" dir="ltr"></div>
+                <div><label class="block text-sm font-semibold text-mocha mb-1">وصف المحل</label><textarea id="sDesc" class="admin-input" rows="2" placeholder="وصف مختصر"></textarea></div>
+                <div><label class="block text-sm font-semibold text-mocha mb-1">رقم واتساب الشيف (مع رمز الدولة بدون +)</label><input id="sWhatsApp" class="admin-input" placeholder="966500000000" dir="ltr"></div>
+                <div><label class="block text-sm font-semibold text-mocha mb-1">رقم الخدمات التقنية (مع رمز الدولة بدون +)</label><input id="sTechPhone" class="admin-input" placeholder="966500000000" dir="ltr"></div>
+                <div><label class="block text-sm font-semibold text-mocha mb-1">تغيير كلمة مرور لوحة التحكم</label><input id="sNewPass" type="password" class="admin-input" placeholder="اتركه فارغاً إذا لم ترد التغيير" dir="ltr"></div>
+                <button onclick="saveSettings()" class="admin-btn admin-btn-primary"><i class="fas fa-save ml-2"></i> حفظ الإعدادات</button>
+            </div>
+        </div>
+
+        <!-- تبويب رفع لل GitHub -->
+        <div id="tab-data" class="p-6 hidden">
+            <div class="guide-box">
+                <h4 class="font-bold text-chocolate mb-3 flex items-center gap-2"><i class="fas fa-lightbulb text-gold"></i> كيف ترفع التعديلات على GitHub؟</h4>
+                <ol class="text-mocha text-sm">
+                    <li>عدّل المنتجات والفئات والإعدادات كما تريد من التبويبات السابقة</li>
+                    <li>اضغط الزر الأخضر أدناه <code>تحميل ملف data.json</code></li>
+                    <li>اذهب لمستودعك على GitHub</li>
+                    <li>اضغط على ملف <code>data.json</code> القديم</li>
+                    <li>اضغط على أيقونة القلم <code>Edit this file</code></li>
+                    <li>احذف كل المحتوى القديم</li>
+                    <li>افتح الملف الجديد الذي حمّلته والصق محتوه كاملاً</li>
+                    <li>اضغط <code>Commit changes</code></li>
+                    <li>انتظر 30 ثانية — التحديثات تظهر للجميع</li>
+                </ol>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-sand space-y-5">
+                <div>
+                    <h4 class="font-bold text-chocolate mb-2">تحميل ملف data.json المحدث</h4>
+                    <p class="text-mocha text-sm mb-3">حمّل هذا الملف وارفعه على GitHub لتحديث الموقع</p>
+                    <button onclick="downloadDataJson()" class="admin-btn admin-btn-success text-lg px-8 py-3">
+                        <i class="fas fa-download ml-2"></i> تحميل ملف data.json
+                    </button>
+                </div>
+                <hr class="border-sand">
+                <div>
+                    <h4 class="font-bold text-chocolate mb-2">استيراد من ملف</h4>
+                    <p class="text-mocha text-sm mb-3">لعرض بيانات ملف JSON محفوظ (للمعاينة فقط)</p>
+                    <input type="file" id="importFile" accept=".json" class="admin-input mb-3">
+                    <button onclick="importPreview()" class="admin-btn admin-btn-secondary"><i class="fas fa-eye ml-2"></i> معاينة</button>
+                </div>
+                <hr class="border-sand">
+                <div>
+                    <h4 class="font-bold text-red-500 mb-2">إعادة تعيين للبيانات الافتراضية</h4>
+                    <p class="text-mocha text-sm mb-3">يرجع كل شيء كما كان في البداية</p>
+                    <button onclick="resetAllData()" class="admin-btn admin-btn-danger"><i class="fas fa-trash-alt ml-2"></i> إعادة تعيين الكل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========================================
+// كلمة المرور — غيّرها لما تريد
+// ========================================
+const DEFAULT_PASSWORD = 'admin123';
+
+// ========================================
+// البيانات الافتراضية (احتياطية فقط)
+// ========================================
+const DEFAULT_DATA = {
+    shopName: 'Sweet&Bakery',
+    shopDescription: 'حلويات منزلية طازجة مصنوعة بحب وإتقان من أجود المكونات',
+    chefWhatsApp: '966500000000',
+    techPhone: '966500000000',
+    categories: ['كاتو','كريب','خلية النحل','براونز','بودينغ'],
+    products: [
+        { id:1, name:'كاتو شوكولاتة', category:'كاتو', price:45, description:'كاتو شوكولاتة غني بطبقات الكريمة الداكنة', image:'https://picsum.photos/seed/choc-cake-1/400/300' },
+        { id:2, name:'كاتو فانيلا', category:'كاتو', price:40, description:'كاتو فانيلا خفيف ورائع مع كريمة لذيذة', image:'https://picsum.photos/seed/vanilla-cake-2/400/300' },
+        { id:3, name:'كاتو فراولة', category:'كاتو', price:45, description:'كاتو بالفراولة الطازجة مع صوص التوت', image:'https://picsum.photos/seed/straw-cake-3/400/300' },
+        { id:4, name:'كريب نوتيلا', category:'كريب', price:30, description:'كريب مقرمش محشو بالنوتيلا والموز', image:'https://picsum.photos/seed/crepe-nut-4/400/300' },
+        { id:5, name:'كريب بالقشطة', category:'كريب', price:25, description:'كريب ناعم مع قشطة طازجة وعسل', image:'https://picsum.photos/seed/crepe-cream-5/400/300' },
+        { id:6, name:'كريب بالمكسرات', category:'كريب', price:32, description:'كريب محشو بمزيج المكسرات المحمصة', image:'https://picsum.photos/seed/crepe-nuts-6/400/300' },
+        { id:7, name:'خلية النحل بالقشطة', category:'خلية النحل', price:50, description:'خلية نحل هشة محشوة بالقشطة الطازجة', image:'https://picsum.photos/seed/honey-cream-7/400/300' },
+        { id:8, name:'خلية النحل بالفستق', category:'خلية النحل', price:55, description:'خلية نحل بالفستق الحلبي والقشطة', image:'https://picsum.photos/seed/honey-pist-8/400/300' },
+        { id:9, name:'براونز شوكولاتة', category:'براونز', price:35, description:'براونز شوكولاتة غني وذو قوام مثالي', image:'https://picsum.photos/seed/brownie-choc-9/400/300' },
+        { id:10, name:'براونز بالجوز', category:'براونز', price:40, description:'براونز بالجوز المحمص وقطع الشوكولاتة', image:'https://picsum.photos/seed/brownie-wal-10/400/300' },
+        { id:11, name:'بودينغ كراميل', category:'بودينغ', price:25, description:'بودينغ كراميل سلس بطبقة الكراميل الذهبية', image:'https://picsum.photos/seed/pudding-car-11/400/300' },
+        { id:12, name:'بودينغ فانيلا', category:'بودينغ', price:20, description:'بودينغ فانيلا كريمي مع صوص التوت', image:'https://picsum.photos/seed/pudding-van-12/400/300' },
+    ]
+};
+
+// ========================================
+// المتغيرات
+// ========================================
+const PASS_KEY = 'sweetsShopPass';
+const SESSION_KEY = 'sweetsShopSession';
+let shopData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+let currentFilter = 'الكل';
+
+function getPassword(){ return localStorage.getItem(PASS_KEY) || DEFAULT_PASSWORD; }
+function setPassword(p){ localStorage.setItem(PASS_KEY, p); }
+function isSessionActive(){ return sessionStorage.getItem(SESSION_KEY)==='true'; }
+function setSession(v){ if(v) sessionStorage.setItem(SESSION_KEY,'true'); else sessionStorage.removeItem(SESSION_KEY); }
+
+// ========================================
+// تحميل البيانات: يقرأ من data.json أولاً، وإذا فشل يستخدم الافتراضي
+// ========================================
+async function loadSiteData() {
+    try {
+        const resp = await fetch('data.json');
+        if (!resp.ok) throw new Error('not found');
+        const data = await resp.json();
+        if (data && data.products && Array.isArray(data.products)) {
+            shopData = { ...DEFAULT_DATA, ...data, categories: data.categories || DEFAULT_DATA.categories };
+        }
+    } catch(e) {
+        // ملف data.json غير موجود — نستخدم البيانات الافتراضية
+        shopData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    }
+    // بناء الموقع بعد تحميل البيانات
+    updateSiteInfo();
+    renderFilters();
+    renderProducts();
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ========================================
+// النقرات الخمس السرية
+// ========================================
+let clickTimes = [];
+document.getElementById('secretTrigger').addEventListener('click', function() {
+    const now = Date.now();
+    clickTimes.push(now);
+    clickTimes = clickTimes.filter(t => now - t < 2000);
+    if (clickTimes.length >= 5) {
+        clickTimes = [];
+        if (isSessionActive()) openAdmin(); else openLogin();
+    }
+});
+
+// ========================================
+// عرض الفلاتر
+// ========================================
+function renderFilters() {
+    document.getElementById('filterContainer').innerHTML = ['الكل',...shopData.categories].map(c =>
+        `<button class="filter-btn ${c===currentFilter?'active':''}" onclick="setFilter('${c}')">${c}</button>`
+    ).join('');
+    document.getElementById('catCountStat').textContent = shopData.categories.length;
+}
+function setFilter(c){ currentFilter=c; renderFilters(); renderProducts(); }
+
+// ========================================
+// عرض المنتجات
+// ========================================
+function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    const filtered = currentFilter==='الكل' ? shopData.products : shopData.products.filter(p=>p.category===currentFilter);
+    grid.innerHTML = filtered.map((p,i) => `
+        <div class="product-card reveal" style="transition-delay:${i*80}ms">
+            <div class="card-img">
+                <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fb-${p.id}/400/300'">
+                <div class="price-tag">${p.price} ريال</div>
+            </div>
+            <div class="p-5 pt-8 text-center">
+                <span class="text-xs font-bold text-copper tracking-wider">${p.category}</span>
+                <h3 class="text-lg font-bold text-chocolate mt-1 mb-2">${p.name}</h3>
+                <p class="text-mocha text-sm leading-relaxed mb-4">${p.description}</p>
+                <a href="https://wa.me/${shopData.chefWhatsApp}?text=${encodeURIComponent('مرحباً، أريد طلب: '+p.name+' ('+p.price+' ريال)')}"
+                   target="_blank"
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-green-500/30 transition-all hover:-translate-y-0.5">
+                    <i class="fab fa-whatsapp text-lg"></i> اطلب الآن
+                </a>
+            </div>
+        </div>
+    `).join('');
+    requestAnimationFrame(()=>{ document.querySelectorAll('.product-card.reveal').forEach(el=>observer.observe(el)); });
+}
+
+// ========================================
+// تحديث الموقع
+// ========================================
+function updateSiteInfo() {
+    const isAr = /[\u0600-\u06FF]/.test(shopData.shopName);
+    const navEl=document.getElementById('navShopName'); navEl.textContent=shopData.shopName; navEl.dir=isAr?'rtl':'ltr';
+    const heroEl=document.getElementById('heroTitle'); heroEl.textContent=shopData.shopName; heroEl.dir=isAr?'rtl':'ltr';
+    document.getElementById('heroDesc').textContent=shopData.shopDescription;
+    document.getElementById('waFloatBtn').href=`https://wa.me/${shopData.chefWhatsApp}`;
+    document.getElementById('techPhoneDisplay').textContent=shopData.techPhone;
+    document.getElementById('techPhoneLink').href=`tel:${shopData.techPhone}`;
+    document.title=shopData.shopName;
+}
+
+// ========================================
+// تسجيل الدخول
+// ========================================
+function openLogin() {
+    document.getElementById('loginOverlay').classList.add('open');
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginError').classList.add('hidden');
+    setTimeout(()=>document.getElementById('loginPass').focus(),100);
+}
+function closeLogin(){ document.getElementById('loginOverlay').classList.remove('open'); }
+function attemptLogin() {
+    if(document.getElementById('loginPass').value===getPassword()){
+        setSession(true); closeLogin(); openAdmin();
+    } else {
+        document.getElementById('loginError').classList.remove('hidden');
+        document.getElementById('loginPass').value='';
+        document.getElementById('loginPass').focus();
+    }
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') attemptLogin(); });
+
+// ========================================
+// لوحة التحكم
+// ========================================
+function openAdmin() {
+    if(!isSessionActive()){ openLogin(); return; }
+    document.getElementById('adminOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+    populateSettings(); renderAdminProducts(); renderCategoriesAdmin(); renderCategorySelect();
+}
+function closeAdmin(){ document.getElementById('adminOverlay').classList.remove('open'); document.body.style.overflow=''; resetForm(); }
+function switchTab(tab) {
+    document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
+    document.querySelectorAll('[id^="tab-"]').forEach(t=>t.classList.add('hidden'));
+    document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    if(tab==='categories') renderCategoriesAdmin();
+}
+
+// ========================================
+// الفئات
+// ========================================
+function renderCategorySelect() {
+    const sel=document.getElementById('pCategory'); const cv=sel.value||shopData.categories[0];
+    sel.innerHTML=shopData.categories.map(c=>`<option value="${c}" ${c===cv?'selected':''}>${c}</option>`).join('');
+}
+function renderCategoriesAdmin() {
+    document.getElementById('categoriesList').innerHTML=shopData.categories.map((c,i)=>`
+        <div class="cat-tag" id="cat-tag-${i}"><span>${c}</span><button onclick="removeCategory(${i})" title="حذف"><i class="fas fa-times"></i></button></div>
+    `).join('');
+}
+function addCategory() {
+    const n=document.getElementById('newCatName').value.trim();
+    if(!n){ showToast('أدخل اسم الفئة','error'); return; }
+    if(shopData.categories.includes(n)){ showToast('الفئة موجودة مسبقاً','error'); return; }
+    shopData.categories.push(n); document.getElementById('newCatName').value='';
+    renderCategoriesAdmin(); renderCategorySelect(); renderFilters(); showToast('تم إضافة الفئة');
+}
+function removeCategory(index) {
+    const tag=document.getElementById(`cat-tag-${index}`);
+    if(tag.dataset.confirming){
+        const cn=shopData.categories[index];
+        shopData.products.forEach(p=>{ if(p.category===cn) p.category='أخرى'; });
+        shopData.categories.splice(index,1);
+        if(!shopData.categories.includes('أخرى')) shopData.categories.push('أخرى');
+        renderCategoriesAdmin(); renderCategorySelect(); renderFilters(); renderProducts(); renderAdminProducts(); showToast('تم حذف الفئة');
+    } else {
+        tag.dataset.confirming='true'; tag.style.borderColor='#ef4444';
+        tag.querySelector('button').innerHTML='<i class="fas fa-check" style="color:#ef4444"></i> تأكيد';
+        setTimeout(()=>{ if(tag.dataset.confirming){ delete tag.dataset.confirming; tag.style.borderColor=''; tag.querySelector('button').innerHTML='<i class="fas fa-times"></i>'; }},3000);
+    }
+}
+
+// ========================================
+// المنتجات
+// ========================================
+function renderAdminProducts() {
+    document.getElementById('productCount').textContent=shopData.products.length;
+    document.getElementById('adminProductsList').innerHTML=shopData.products.map(p=>`
+        <div class="admin-product-row">
+            <img src="${p.image}" alt="${p.name}" onerror="this.src='https://picsum.photos/seed/fb-${p.id}/50/50'">
+            <div class="flex-1 min-w-[120px]"><div class="font-bold text-chocolate text-sm">${p.name}</div><div class="text-xs text-mocha">${p.category} — ${p.price} ريال</div></div>
+            <button onclick="editProduct(${p.id})" class="admin-btn admin-btn-secondary admin-btn-sm"><i class="fas fa-edit"></i></button>
+            <button onclick="deleteProduct(${p.id})" class="admin-btn admin-btn-danger admin-btn-sm"><i class="fas fa-trash"></i></button>
+        </div>
+    `).join('');
+}
+function saveProduct() {
+    const name=document.getElementById('pName').value.trim(), category=document.getElementById('pCategory').value,
+    price=parseInt(document.getElementById('pPrice').value), image=document.getElementById('pImage').value.trim(),
+    desc=document.getElementById('pDesc').value.trim(), editId=document.getElementById('editId').value;
+    if(!name||!price){ showToast('يرجى ملء اسم المنتج والسعر','error'); return; }
+    if(editId){
+        const idx=shopData.products.findIndex(p=>p.id==editId);
+        if(idx!==-1) shopData.products[idx]={...shopData.products[idx],name,category,price,description:desc,image:image||shopData.products[idx].image};
+        showToast('تم تعديل المنتج');
+    } else {
+        const maxId=shopData.products.reduce((m,p)=>Math.max(m,p.id),0);
+        shopData.products.push({id:maxId+1,name,category,price,description:desc,image:image||`https://picsum.photos/seed/p-${maxId+1}/400/300`});
+        showToast('تم إضافة المنتج');
+    }
+    renderProducts(); renderFilters(); renderAdminProducts(); renderCategorySelect(); resetForm();
+}
+function editProduct(id) {
+    const p=shopData.products.find(x=>x.id===id); if(!p) return;
+    document.getElementById('editId').value=p.id; document.getElementById('pName').value=p.name;
+    renderCategorySelect(); document.getElementById('pCategory').value=p.category;
+    document.getElementById('pPrice').value=p.price; document.getElementById('pImage').value=p.image;
+    document.getElementById('pDesc').value=p.description;
+    document.getElementById('formTitle').textContent='تعديل المنتج'; document.getElementById('saveBtnText').textContent='حفظ التعديل';
+    document.getElementById('tab-products').scrollTo({top:0,behavior:'smooth'});
+}
+function deleteProduct(id) {
+    const row=document.querySelector(`[onclick="deleteProduct(${id})"]`).closest('.admin-product-row');
+    if(row.dataset.confirming){
+        shopData.products=shopData.products.filter(p=>p.id!==id);
+        renderProducts(); renderFilters(); renderAdminProducts(); showToast('تم حذف المنتج');
+    } else {
+        row.dataset.confirming='true'; const btn=row.querySelector('.admin-btn-danger');
+        btn.innerHTML='<i class="fas fa-check"></i> تأكيد'; btn.style.background='#dc2626';
+        setTimeout(()=>{ if(row.dataset.confirming){ delete row.dataset.confirming; btn.innerHTML='<i class="fas fa-trash"></i>'; btn.style.background=''; }},3000);
+    }
+}
+function resetForm() {
+    document.getElementById('editId').value=''; document.getElementById('pName').value='';
+    renderCategorySelect(); document.getElementById('pPrice').value=''; document.getElementById('pImage').value=''; document.getElementById('pDesc').value='';
+    document.getElementById('formTitle').textContent='إضافة منتج جديد'; document.getElementById('saveBtnText').textContent='حفظ المنتج';
+}
+
+// ========================================
+// الإعدادات
+// ========================================
+function populateSettings() {
+    document.getElementById('sName').value=shopData.shopName; document.getElementById('sDesc').value=shopData.shopDescription;
+    document.getElementById('sWhatsApp').value=shopData.chefWhatsApp; document.getElementById('sTechPhone').value=shopData.techPhone;
+    document.getElementById('sNewPass').value='';
+}
+function saveSettings() {
+    shopData.shopName=document.getElementById('sName').value.trim()||DEFAULT_DATA.shopName;
+    shopData.shopDescription=document.getElementById('sDesc').value.trim()||DEFAULT_DATA.shopDescription;
+    shopData.chefWhatsApp=document.getElementById('sWhatsApp').value.trim()||DEFAULT_DATA.chefWhatsApp;
+    shopData.techPhone=document.getElementById('sTechPhone').value.trim()||DEFAULT_DATA.techPhone;
+    const np=document.getElementById('sNewPass').value.trim(); if(np) setPassword(np);
+    saveData(shopData); updateSiteInfo(); document.getElementById('sNewPass').value=''; showToast('تم حفظ الإعدادات');
+}
+
+// ========================================
+// تحميل ملف data.json (لرفعه على GitHub)
+// ========================================
+function downloadDataJson() {
+    const blob = new Blob([JSON.stringify(shopData, null, 2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'data.json'; a.click(); URL.revokeObjectURL(a.href);
+    showToast('تم تحميل data.json — ارفعه على GitHub','info');
+}
+
+// ========================================
+// استيراد للمعاينة فقط
+// ========================================
+function importPreview() {
+    const f=document.getElementById('importFile'); if(!f.files.length){ showToast('اختر ملف JSON','error'); return; }
+    const r=new FileReader();
+    r.onload=function(e){
+        try{
+            const d=JSON.parse(e.target.result);
+            if(!d.products||!Array.isArray(d.products)) throw 0;
+            shopData={...DEFAULT_DATA,...d,categories:d.categories||DEFAULT_DATA.categories};
+            updateSiteInfo(); renderFilters(); renderProducts(); renderAdminProducts(); populateSettings(); renderCategoriesAdmin(); renderCategorySelect();
+            showToast('تم تحميل البيانات — اضغط "تحميل data.json" لرفعها على GitHub');
+            f.value='';
+        }catch(err){ showToast('ملف غير صالح','error'); }
+    };
+    r.readAsText(f.files[0]);
+}
+
+// ========================================
+// إعادة تعيين
+// ========================================
+function resetAllData() {
+    const btn=event.target.closest('button');
+    if(btn.dataset.confirming){
+        shopData=JSON.parse(JSON.stringify(DEFAULT_DATA));
+        updateSiteInfo(); renderFilters(); renderProducts(); renderAdminProducts(); populateSettings(); renderCategoriesAdmin(); renderCategorySelect();
+        showToast('تم إعادة التعيين'); delete btn.dataset.confirming; btn.innerHTML='<i class="fas fa-trash-alt ml-2"></i> إعادة تعيين الكل'; btn.style.background='';
+    } else {
+        btn.dataset.confirming='true'; btn.innerHTML='<i class="fas fa-exclamation-triangle ml-2"></i> اضغط مرة أخرى للتأكيد'; btn.style.background='#b91c1c';
+        setTimeout(()=>{ if(btn.dataset.confirming){ delete btn.dataset.confirming; btn.innerHTML='<i class="fas fa-trash-alt ml-2"></i> إعادة تعيين الكل'; btn.style.background=''; }},4000);
+    }
+}
+
+// ========================================
+// توست
+// ========================================
+function showToast(msg,type='success'){
+    const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast toast-${type} show`;
+    setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+// ========================================
+// أنيميشن
+// ========================================
+const observer=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }}); },{threshold:0.1});
+window.addEventListener('scroll',()=>document.querySelector('.navbar').classList.toggle('scrolled',window.scrollY>50));
+document.getElementById('adminOverlay').addEventListener('click',function(e){ if(e.target===this) closeAdmin(); });
+document.getElementById('loginOverlay').addEventListener('click',function(e){ if(e.target===this) closeLogin(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeAdmin(); closeLogin(); }});
+
+// ========================================
+// البدء — ننتظر تحميل data.json ثم نبني الموقع
+// ========================================
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+loadSiteData();
+</script>
+</body>
+</html>

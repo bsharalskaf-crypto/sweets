@@ -1,0 +1,119 @@
+{
+  "shopName": "Sweet&Bakery",
+  "shopDescription": "حلويات منزلية طازجة مصنوعة بحب وإتقان من أجود المكونات",
+  "chefWhatsApp": "966500000000",
+  "techPhone": "966500000000",
+  "categories": [
+    "كاتو",
+    "كريب",
+    "خلية النحل",
+    "براونز",
+    "بودينغ"
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "كاتو شوكولاتة",
+      "category": "كاتو",
+      "price": 45,
+      "description": "كاتو شوكولاتة غني بطبقات الكريمة الداكنة",
+      "image": "https://picsum.photos/seed/choc-cake-1/400/300"
+    },
+    {
+      "id": 2,
+      "name": "كاتو فانيلا",
+      "category": "كاتو",
+      "price": 40,
+      "description": "كاتو فانيلا خفيف ورائع مع كريمة لذيذة",
+      "image": "https://picsum.photos/seed/vanilla-cake-2/400/300"
+    },
+    {
+      "id": 3,
+      "name": "كاتو فراولة",
+      "category": "كاتو",
+      "price": 45,
+      "description": "كاتو بالفراولة الطازجة مع صوص التوت",
+      "image": "https://picsum.photos/seed/straw-cake-3/400/300"
+    },
+    {
+      "id": 4,
+      "name": "كريب نوتيلا",
+      "category": "كريب",
+      "price": 30,
+      "description": "كريب مقرمش محشو بالنوتيلا والموز",
+      "image": "https://picsum.photos/seed/crepe-nut-4/400/300"
+    },
+    {
+      "id": 5,
+      "name": "كريب بالقشطة",
+      "category": "كريب",
+      "price": 25,
+      "description": "كريب ناعم مع قشطة طازجة وعسل",
+      "image": "https://picsum.photos/seed/crepe-cream-5/400/300"
+    },
+    {
+      "id": 6,
+      "name": "كريب بالمكسرات",
+      "category": "كريب",
+      "price": 32,
+      "description": "كريب محشو بمزيج المكسرات المحمصة",
+      "image": "https://picsum.photos/seed/crepe-nuts-6/400/300"
+    },
+    {
+      "id": 7,
+      "name": "خلية النحل بالقشطة",
+      "category": "خلية النحل",
+      "price": 50,
+      "description": "خلية نحل هشة محشوة بالقشطة الطازجة",
+      "image": "https://picsum.photos/seed/honey-cream-7/400/300"
+    },
+    {
+      "id": 8,
+      "name": "خلية النحل بالفستق",
+      "category": "خلية النحل",
+      "price": 55,
+      "description": "خلية نحل بالفستق الحلبي والقشطة",
+      "image": "https://picsum.photos/seed/honey-pist-8/400/300"
+    },
+    {
+      "id": 9,
+      "name": "براونز شوكولاتة",
+      "category": "براونز",
+      "price": 35,
+      "description": "براونز شوكولاتة غني وذو قوام مثالي",
+      "image": "https://picsum.photos/seed/brownie-choc-9/400/300"
+    },
+    {
+      "id": 10,
+      "name": "براونز بالجوز",
+      "category": "براونز",
+      "price": 40,
+      "description": "براونز بالجوز المحمص وقطع الشوكولاتة",
+      "image": "https://picsum.photos/seed/brownie-wal-10/400/300"
+    },
+    {
+      "id": 11,
+      "name": "بودينغ كراميل",
+      "category": "بودينغ",
+      "price": 25,
+      "description": "بودينغ كراميل سلس بطبقة الكراميل الذهبية",
+      "image": "https://picsum.photos/seed/pudding-car-11/400/300"
+    },
+    {
+      "id": 12,
+      "name": "بودينغ فانيلا",
+      "category": "بودينغ",
+      "price": 20,
+      "description": "بودينغ فانيلا كريمي مع صوص التوت",
+      "image": "https://picsum.photos/seed/pudding-van-12/400/300"
+    },
+    {
+      "id": 13,
+      "name": "كريب فواكه",
+      "category": "كريب",
+      "price": 23,
+      "description": "لذيذ ومليء بالفواكه",
+      "image": "https://ibb.co/ymPKzBvM"
+    }
+  ]
+}

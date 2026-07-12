@@ -106,14 +106,6 @@
       "price": 20,
       "description": "بودينغ فانيلا كريمي مع صوص التوت",
       "image": "https://picsum.photos/seed/pudding-van-12/400/300"
-    },
-    {
-      "id": 13,
-      "name": "كريب فواكه",
-      "category": "كريب",
-      "price": 23,
-      "description": "لذيذ ومليء بالفواكه",
-      "image": "https://ibb.co/ymPKzBvM"
     }
   ]
 }

@@ -17,7 +17,7 @@
       "category": "كاتو",
       "price": 45,
       "description": "كاتو شوكولاتة غني بطبقات الكريمة الداكنة",
-      "image": "https://picsum.photos/seed/choc-cake-1/400/300"
+      "image": "https://ibb.co/ymPKzBvM"
     },
     {
       "id": 2,
@@ -57,7 +57,7 @@
       "category": "كريب",
       "price": 32,
       "description": "كريب محشو بمزيج المكسرات المحمصة",
-      "image": "https://picsum.photos/seed/crepe-nuts-6/400/300"
+      "image": "https://ibb.co/ymPKzBvM"
     },
     {
       "id": 7,
@@ -105,7 +105,7 @@
       "category": "بودينغ",
       "price": 20,
       "description": "بودينغ فانيلا كريمي مع صوص التوت",
-      "image": "https://picsum.photos/seed/pudding-van-12/400/300"
+      "image": "https://ibb.co/ymPKzBvM"
     }
   ]
 }

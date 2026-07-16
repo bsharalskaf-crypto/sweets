@@ -17,7 +17,7 @@
       "category": "كاتو",
       "price": 45,
       "description": "كاتو شوكولاتة غني بطبقات الكريمة الداكنة",
-      "image": "https://ibb.co/ymPKzBvM"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/%D8%AA%D9%86%D8%B2%D9%8A%D9%84.webp?raw=true "
     },
     {
       "id": 2,
@@ -25,7 +25,7 @@
       "category": "كاتو",
       "price": 40,
       "description": "كاتو فانيلا خفيف ورائع مع كريمة لذيذة",
-      "image": "https://picsum.photos/seed/vanilla-cake-2/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(5).webp?raw=true"
     },
     {
       "id": 3,
@@ -41,7 +41,7 @@
       "category": "كريب",
       "price": 30,
       "description": "كريب مقرمش محشو بالنوتيلا والموز",
-      "image": "https://picsum.photos/seed/crepe-nut-4/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(1).webp?raw=true"
     },
     {
       "id": 5,
@@ -49,7 +49,7 @@
       "category": "كريب",
       "price": 25,
       "description": "كريب ناعم مع قشطة طازجة وعسل",
-      "image": "https://picsum.photos/seed/crepe-cream-5/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(1).webp?raw=true"
     },
     {
       "id": 6,
@@ -65,7 +65,7 @@
       "category": "خلية النحل",
       "price": 50,
       "description": "خلية نحل هشة محشوة بالقشطة الطازجة",
-      "image": "https://picsum.photos/seed/honey-cream-7/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(7).webp?raw=true "
     },
     {
       "id": 8,
@@ -73,7 +73,7 @@
       "category": "خلية النحل",
       "price": 55,
       "description": "خلية نحل بالفستق الحلبي والقشطة",
-      "image": "https://picsum.photos/seed/honey-pist-8/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/%D8%AA%D9%86%D8%B2%D9%8A%D9%84%20(1).webp?raw=true"
     },
     {
       "id": 9,
@@ -81,7 +81,7 @@
       "category": "براونز",
       "price": 35,
       "description": "براونز شوكولاتة غني وذو قوام مثالي",
-      "image": "https://picsum.photos/seed/brownie-choc-9/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(13).webp?raw=true "
     },
     {
       "id": 10,
@@ -105,7 +105,7 @@
       "category": "بودينغ",
       "price": 20,
       "description": "بودينغ فانيلا كريمي مع صوص التوت",
-      "image": "https://ibb.co/ymPKzBvM"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(11).webp?raw=true "
     }
   ]
 }

@@ -58,7 +58,7 @@
         .product-card .card-img { height:220px; position:relative; overflow:hidden; }
         .product-card .card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s; }
         .product-card:hover .card-img img { transform:scale(1.1); }
-        .card-img .price-tag { position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#C75B39,#D4956A); color:#fff; padding:6px 24px; border-radius:99px; font-weight:700; font-size:1.1rem; box-shadow:0 4px 15px rgba(199,91,57,0.4); z-index:2; white-space:nowrap; }
+        .price-tag { display:inline-block; background:linear-gradient(135deg,#C75B39,#D4956A); color:#fff; padding:6px 24px; border-radius:99px; font-weight:700; font-size:1.1rem; box-shadow:0 4px 15px rgba(199,91,57,0.4); white-space:nowrap; margin-bottom:8px; }
 
         .filter-btn { padding:10px 28px; border-radius:99px; border:2px solid #E8D5C4; background:transparent; color:#6F4E37; font-family:'Cairo'; font-weight:600; cursor:pointer; transition:all 0.3s; font-size:0.95rem; }
         .filter-btn:hover { border-color:#D4A574; background:rgba(212,165,116,0.1); }
@@ -413,13 +413,13 @@ function renderProducts() {
     const filtered = currentFilter==='الكل' ? shopData.products : shopData.products.filter(p=>p.category===currentFilter);
     grid.innerHTML = filtered.map((p,i) => `
         <div class="product-card reveal" style="transition-delay:${i*80}ms">
-            <div class="card-img">
+          <div class="card-img">
                 <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fb-${p.id}/400/300'">
-                <div class="price-tag">${p.price} ليرة سورية</div>
             </div>
-            <div class="p-5 pt-8 text-center">
-                <span class="text-xs font-bold text-copper tracking-wider">${p.category}</span>
-                <h3 class="text-lg font-bold text-chocolate mt-1 mb-2">${p.name}</h3>
+            <div class="p-4 pb-2 text-center">
+                <div class="price-tag">${p.price} ليرة سورية </div>
+                               <span class="text-xs font-bold text-copper tracking-wider">${p.category}</span>
+                <h3 class="text-lg font-bold text-chocolate mt-1 mb-3">${p.name}</h3>
                 <p class="text-mocha text-sm leading-relaxed mb-4">${p.description}</p>
                 <a href="https://wa.me/${shopData.chefWhatsApp}?text=${encodeURIComponent('مرحباً، أرغب في طلب: '+p.name+' ('+p.price+' ليرة سورية)')}"
                    target="_blank"

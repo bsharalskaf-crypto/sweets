@@ -1,7 +1,7 @@
 {
   "shopName": "Sweet",
   "shopDescription": "حلويات منزلية طازجة مصنوعة بحب وإتقان من أجود المكونات",
-  "chefWhatsApp": "899999999",
+  "chefWhatsApp": "982398084",
   "techPhone": "982398084",
   "categories": [
     "كاتو",
@@ -57,7 +57,7 @@
       "category": "كريب",
       "price": 32,
       "description": "كريب محشو بمزيج المكسرات المحمصة",
-      "image": "https://ibb.co/ymPKzBvM"
+      "image": ""
     },
     {
       "id": 7,
@@ -97,7 +97,7 @@
       "category": "بودينغ",
       "price": 25,
       "description": "بودينغ كراميل سلس بطبقة الكراميل الذهبية",
-      "image": "https://picsum.photos/seed/pudding-car-11/400/300"
+      "image": "https://github.com/bsharalskaf-crypto/sweets/blob/main/OIP%20(11).webp?raw=true"
     },
     {
       "id": 12,

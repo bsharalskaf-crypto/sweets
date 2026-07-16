@@ -415,13 +415,13 @@ function renderProducts() {
         <div class="product-card reveal" style="transition-delay:${i*80}ms">
             <div class="card-img">
                 <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://picsum.photos/seed/fb-${p.id}/400/300'">
-                <div class="price-tag">${p.price} ريال</div>
+                <div class="price-tag">${p.price} ليرة سورية</div>
             </div>
             <div class="p-5 pt-8 text-center">
                 <span class="text-xs font-bold text-copper tracking-wider">${p.category}</span>
                 <h3 class="text-lg font-bold text-chocolate mt-1 mb-2">${p.name}</h3>
                 <p class="text-mocha text-sm leading-relaxed mb-4">${p.description}</p>
-                <a href="https://wa.me/${shopData.chefWhatsApp}?text=${encodeURIComponent('مرحباً، أريد طلب: '+p.name+' ('+p.price+' ريال)')}"
+                <a href="https://wa.me/${shopData.chefWhatsApp}?text=${encodeURIComponent('مرحباً، أرغب في طلب: '+p.name+' ('+p.price+' ليرة سورية)')}"
                    target="_blank"
                    class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-green-500/30 transition-all hover:-translate-y-0.5">
                     <i class="fab fa-whatsapp text-lg"></i> اطلب الآن
@@ -512,7 +512,7 @@ function renderAdminProducts() {
     document.getElementById('adminProductsList').innerHTML=shopData.products.map(p=>`
         <div class="admin-product-row">
             <img src="${p.image}" alt="${p.name}" onerror="this.src='https://picsum.photos/seed/fb-${p.id}/50/50'">
-            <div class="flex-1 min-w-[120px]"><div class="font-bold text-chocolate text-sm">${p.name}</div><div class="text-xs text-mocha">${p.category} — ${p.price} ريال</div></div>
+            <div class="flex-1 min-w-[120px]"><div class="font-bold text-chocolate text-sm">${p.name}</div><div class="text-xs text-mocha">${p.category} —   ليرة سورية ${p.price} </div></div>
             <button onclick="editProduct(${p.id})" class="admin-btn admin-btn-secondary admin-btn-sm"><i class="fas fa-edit"></i></button>
             <button onclick="deleteProduct(${p.id})" class="admin-btn admin-btn-danger admin-btn-sm"><i class="fas fa-trash"></i></button>
         </div>
